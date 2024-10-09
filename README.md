@@ -6,8 +6,8 @@ https://www.kaggle.com/datasets/andrewmvd/drive-digital-retinal-images-for-vesse
 
 ### Screenshots
 ![Input](assets/images/input.png)
-![Output](assets/images/output.png)
-![Output1](assets/images/output1.png)
+![Output](assets/images/output1.png)
+![Output1](assets/images/output.png)
 ![Prediction](assets/images/prediction.png)
 
 # The design includes the following:
