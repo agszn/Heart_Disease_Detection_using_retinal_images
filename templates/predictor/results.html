@@ -1,0 +1,276 @@
+{% extends "base.html" %}
+{% block title %}Heart Disease Prediction Result{% endblock %}
+
+{% block style %}
+    <style>
+        /* Main result container */
+        .heart-disease-result {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            margin-top: 20px;
+            animation: fadeIn 1s ease-in;
+        }
+
+        /* Prediction list styling */
+        .prediction-list {
+            list-style: none;
+            padding: 0;
+            font-size: 18px;
+            animation: slideIn 1s ease-out;
+        }
+
+        .prediction-list li {
+            margin: 10px 0;
+            position: relative;
+            transform: translateY(20px);
+            opacity: 0;
+            animation: revealItem 0.5s ease-out forwards;
+        }
+
+        .prediction-list li:nth-child(1) { animation-delay: 0.2s; }
+        .prediction-list li:nth-child(2) { animation-delay: 0.4s; }
+        .prediction-list li:nth-child(3) { animation-delay: 0.6s; }
+        .prediction-list li:nth-child(4) { animation-delay: 0.8s; }
+        .prediction-list li:nth-child(5) { animation-delay: 1s; }
+
+        /* Risk status animation */
+        .prediction-risk-status {
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: 20px;
+            transform: translateY(30px);
+            opacity: 0;
+            animation: slideInFromBottom 0.8s ease-out forwards;
+            animation-delay: 1.2s;
+        }
+
+        /* Card container for explanations */
+        .card-container {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 30px;
+            animation: slideUp 0.8s ease-in-out;
+        }
+
+        /* Card styling with 3D effect and hover animation */
+        .card {
+            background-color: #f8f9fa;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            flex: 1 1 calc(33.33% - 20px);
+            padding: 20px;
+            text-align: left;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            perspective: 1000px;
+            transform-style: preserve-3d;
+        }
+
+        .card:hover {
+            transform: translateY(-10px) rotateX(5deg) rotateY(5deg);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Title of each card */
+        .card-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            animation: fadeIn 0.6s ease-in-out;
+        }
+
+        /* Card content */
+        .card-content {
+            font-size: 16px;
+            color: #333;
+        }
+
+        /* Keyframe animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes slideInFromBottom {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes revealItem {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(40px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        /* Responsive design for smaller screens */
+        @media (max-width: 768px) {
+            .card {
+                flex: 1 1 100%;
+            }
+        }
+
+        .prediction-list, .true-values-list, .predicted-values-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 10px 0;
+}
+
+.prediction-list li, .true-values-list li, .predicted-values-list li {
+    padding: 5px 0;
+    font-size: 18px;
+}
+
+.prediction-risk-status {
+    font-weight: bold;
+    font-size: 20px;
+    margin-top: 15px;
+}
+
+    </style>
+{% endblock %}
+
+{% block index %}
+{% endblock %}
+
+{% block content %}
+<section class="page-title bg-1">
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="block text-center">
+            <span class="text-white">Heart Disease Prediction Results</span>
+            <h1 class="text-capitalize mb-5 text-lg">Result</h1>
+  
+            
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+    <div class="heart-disease-result">
+<!-- Predicted Values List -->
+<!-- <ul class="prediction-list">
+    <li>Predicted Age: {{ result.age }}</li>
+    <li>Systolic Blood Pressure (SBP): {{ result.sbp }} mmHg</li>
+    <li>Diastolic Blood Pressure (DBP): {{ result.dbp }} mmHg</li>
+    <li>Body Mass Index (BMI): {{ result.bmi }}</li>
+    <li>HbA1c: {{ result.hba1c }}</li>
+</ul> -->
+
+<!-- Risk Status -->
+<p class="prediction-risk-status" style="color: {{ result.risk_color }};">
+    Risk Status: {{ result.risk_status }}
+</p>
+
+<!-- Add True Values for comparison -->
+<h3>True Values</h3>
+<ul class="true-values-list">
+    <li>True Age: {{ result.true_values.0 }}</li>
+    <li>True SBP: {{ result.true_values.1 }} mmHg</li>
+    <li>True DBP: {{ result.true_values.2 }} mmHg</li>
+    <li>True BMI: {{ result.true_values.3 }}</li>
+    <li>True HbA1c: {{ result.true_values.4 }}</li>
+</ul>
+
+<!-- Display Mean Absolute Error (MAE) -->
+<p>
+    <strong>Mean Absolute Error (MAE):</strong> {{ result.mae }}
+</p>
+
+<!-- Add Predicted Values list -->
+<h3>Predicted Values</h3>
+<ul class="predicted-values-list">
+    <li>Predicted Age: {{ result.predicted_values.0 }}</li>
+    <li>Predicted SBP: {{ result.predicted_values.1 }} mmHg</li>
+    <li>Predicted DBP: {{ result.predicted_values.2 }} mmHg</li>
+    <li>Predicted BMI: {{ result.predicted_values.3 }}</li>
+    <li>Predicted HbA1c: {{ result.predicted_values.4 }}</li>
+</ul>
+
+        <!-- Explanation Cards -->
+        <!-- Add Font Awesome CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+<div class="card-container">
+    <!-- Age Explanation Card -->
+    <div class="card">
+        <div class="card-title">
+            <i class="fas fa-user"></i> Age
+        </div>
+        <div class="card-content">
+            Age can be a major risk factor for heart disease. As you age, your heart and blood vessels undergo changes that increase the likelihood of cardiovascular problems.
+        </div>
+    </div>
+
+    <!-- Systolic Blood Pressure Card -->
+    <div class="card">
+        <div class="card-title">
+            <i class="fas fa-heartbeat"></i> Systolic Blood Pressure (SBP)
+        </div>
+        <div class="card-content">
+            SBP measures the pressure in your arteries when your heart beats. High SBP (>140 mmHg) is a major risk factor for heart disease.
+        </div>
+    </div>
+
+    <!-- Diastolic Blood Pressure Card -->
+    <div class="card">
+        <div class="card-title">
+            <i class="fas fa-heart"></i> Diastolic Blood Pressure (DBP)
+        </div>
+        <div class="card-content">
+            DBP is the pressure in your arteries between heartbeats. High DBP (>90 mmHg) can indicate increased risk of heart issues.
+        </div>
+    </div>
+
+    <!-- Body Mass Index (BMI) Card -->
+    <div class="card">
+        <div class="card-title">
+            <i class="fas fa-weight"></i> Body Mass Index (BMI)
+        </div>
+        <div class="card-content">
+            BMI is a measure of body fat based on your height and weight. A BMI over 25 is considered overweight, increasing the risk of heart disease.
+        </div>
+    </div>
+
+    <!-- HbA1c (Blood Sugar) Card -->
+    <div class="card">
+        <div class="card-title">
+            <i class="fas fa-vial"></i> HbA1c
+        </div>
+        <div class="card-content">
+            HbA1c measures your average blood sugar levels over the past 2-3 months. High HbA1c (>6.5%) is linked to diabetes, a major contributor to heart disease.
+        </div>
+    </div>
+
+    <!-- Risk Status Card -->
+    <div class="card">
+        <div class="card-title">
+            <i class="fas fa-exclamation-circle"></i> Risk Status
+        </div>
+        <div class="card-content">
+            Based on your values, your risk status is classified as "{{ result.risk_status }}". Managing your lifestyle can help lower risk factors for heart disease.
+        </div>
+    </div>
+</div>
+
+    </div>
+{% endblock %}
+
+{% block footer %}
+{% endblock %}

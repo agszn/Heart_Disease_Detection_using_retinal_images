@@ -1,0 +1,182 @@
+{% extends "base.html" %}
+{% block title %}
+Heart Disease Risk Prediction
+{% endblock %}
+
+{% block style %}
+<style>
+    .hdp-title {
+        text-align: center;
+        color: #2c3e50;
+        font-size: 36px;
+        margin-bottom: 30px;
+    }
+
+    .hdp-subtitle {
+        color: #2980b9;
+        font-size: 24px;
+        margin-bottom: 20px;
+        border-bottom: 2px solid #2980b9;
+        padding-bottom: 10px;
+    }
+
+    .hdp-small-title {
+        color: #34495e;
+        font-size: 20px;
+        margin-bottom: 10px;
+        text-align: center;
+    }
+
+    .hdp-text {
+        font-size: 18px;
+    }
+
+    .hdp-list {
+        list-style-type: none;
+        padding: 0;
+        font-size: 18px;
+    }
+
+    .hdp-list-item {
+        padding: 8px;
+        margin: 5px 0;
+        background-color: #ecf0f1;
+        border-left: 5px solid #3498db;
+    }
+
+    .hdp-image-grid {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 20px;
+    }
+
+    .hdp-image-card {
+        flex: 0 0 30%; /* Three cards per row */
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .hdp-image-card img {
+        max-width: 100%;
+        height: auto;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .hdp-image-card h3 {
+        padding: 10px;
+        background-color: #ecf0f1;
+    }
+
+    .hdp-container {
+        max-width: 1000px;
+        margin: 0 auto;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .hdp-risk-info {
+        background-color: #e74c3c;
+        color: white;
+        padding: 15px;
+        border-radius: 5px;
+        text-align: center;
+        font-size: 22px;
+        margin-bottom: 30px;
+    }
+
+    .hdp-chance-info {
+        background-color: #f39c12;
+        color: white;
+        padding: 15px;
+        border-radius: 5px;
+        text-align: center;
+        font-size: 22px;
+        margin-bottom: 30px;
+    }
+
+    @media screen and (max-width: 768px) {
+        .hdp-image-card {
+            flex: 0 0 45%; /* Two cards per row on smaller screens */
+        }
+    }
+
+    @media screen and (max-width: 480px) {
+        .hdp-image-card {
+            flex: 0 0 100%; /* One card per row on mobile */
+        }
+    }
+</style>
+{% endblock %}
+
+{% block index %}
+{% endblock %}
+
+{% block content %}
+<div class="hdp-container">
+    <h1 class="hdp-title">Heart Disease Risk Prediction</h1>
+
+    <div class="hdp-risk-info">
+        <p>Risk Level: {{ risk }}</p>
+    </div>
+
+    <div class="hdp-chance-info">
+        {% for i in chance_percent %}
+            <p>Accuracy & Loss value: {{ i }}</p>
+        {% endfor %}
+    </div>
+
+    <h2 class="hdp-subtitle">Processed Images</h2>
+
+    <div class="hdp-image-grid">
+        <div class="hdp-image-card">
+            <h3 class="hdp-small-title">Original (Query Image)</h3>
+            <img src="{{ images.query_image }}" alt="Query Image">
+        </div>
+
+        <div class="hdp-image-card">
+            <h3 class="hdp-small-title">Grayscale Image</h3>
+            <img src="{{ images.grayscale_image }}" alt="Grayscale Image">
+        </div>
+
+        <div class="hdp-image-card">
+            <h3 class="hdp-small-title">Equalized Image</h3>
+            <img src="{{ images.equalized_image }}" alt="Equalized Image">
+        </div>
+
+        <div class="hdp-image-card">
+            <h3 class="hdp-small-title">Filtered Image</h3>
+            <img src="{{ images.filtered_image }}" alt="Filtered Image">
+        </div>
+
+        <div class="hdp-image-card">
+            <h3 class="hdp-small-title">Segmentation Cluster</h3>
+            <img src="{{ images.segmentation_image }}" alt="Segmentation Cluster">
+        </div>
+
+        <div class="hdp-image-card">
+            <h3 class="hdp-small-title">ROI Extraction</h3>
+            <img src="{{ images.roi_image }}" alt="ROI Image">
+        </div>
+    </div>
+
+    <h2 class="hdp-subtitle">Extracted Features</h2>
+    <ul class="hdp-list">
+        <li class="hdp-list-item">Mean: {{ features.mean }}</li>
+        <li class="hdp-list-item">Standard Deviation: {{ features.std }}</li>
+        <li class="hdp-list-item">Variance: {{ features.variance }}</li>
+        <li class="hdp-list-item">Entropy: {{ features.entropy }}</li>
+        <li class="hdp-list-item">Contrast: {{ features.contrast }}</li>
+        <li class="hdp-list-item">Correlation: {{ features.correlation }}</li>
+        <li class="hdp-list-item">Energy: {{ features.energy }}</li>
+        <li class="hdp-list-item">Homogeneity: {{ features.homogeneity }}</li>
+    </ul>
+</div>
+
+{% endblock %}

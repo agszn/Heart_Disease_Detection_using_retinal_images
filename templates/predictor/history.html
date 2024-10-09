@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+{% block title %}Heart Disease Prediction{% endblock %}
+{% block style %}
+<style>
+    /* Styling for the form container */
+    .upload-form-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: auto;
+        padding: 2rem 0;
+        background-color: #f8f9fa;
+    }
+
+    /* Styling for the image upload form card */
+    .upload-form-card {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        max-width: 800px; /* Increase max-width for better table display */
+        width: 100%;
+    }
+
+    /* Table styling */
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+
+    th, td {
+        padding: 10px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+
+    th {
+        background-color: #007bff;
+        color: #fff;
+    }
+
+    tr:hover {
+        background-color: #f1f1f1; /* Highlight row on hover */
+    }
+
+    /* Responsive styling */
+    @media (max-width: 768px) {
+        .upload-form-card {
+            padding: 10px;
+        }
+
+        th, td {
+            padding: 8px;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block index %}
+{% endblock %}
+
+{% block content %}
+<section class="page-title bg-1">
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="block text-center">
+            <span class="text-white">Heart Disease Prediction </span>
+            <h1 class="text-capitalize mb-5 text-lg">Prediction</h1>
+          </div>
+        </div>
+      </div>
+    </div>
+</section>
+
+        <h2>Prediction History</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Age</th>
+                    <th>SBP</th>
+                    <th>DBP</th>
+                    <th>BMI</th>
+                    <th>HbA1c</th>
+                    <th>Risk Status</th>
+                    <th>MAE</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for prediction in predictions %}
+                <tr>
+                    <td>{{ prediction.created_at }}</td>
+                    <td>{{ prediction.age }}</td>
+                    <td>{{ prediction.sbp }}</td>
+                    <td>{{ prediction.dbp }}</td>
+                    <td>{{ prediction.bmi }}</td>
+                    <td>{{ prediction.hba1c }}</td>
+                    <td>{{ prediction.risk_status }}</td>
+                    <td>{{ prediction.mae }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+{% endblock %}
+
+{% block footer %}
+{% endblock %}

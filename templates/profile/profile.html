@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Edit Profile{% endblock %}
+
+{% block style %}
+<style>
+    .profile-header {
+        text-align: center;
+        font-weight: bold;
+        margin-top: 20px;
+    }
+    
+    .profile-container {
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        margin-left: -20px; /* Adjust the entire container to the left */
+    }
+    
+    .profile-picture {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        overflow: hidden;
+        margin-right: 20px;
+        margin-left: -10px; /* Adjust the image a bit to the left */
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* 3D effect */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #f0f0f0;
+        font-size: 24px;
+        color: #888;
+    }
+
+    .profile-card {
+        width: 100%;
+        max-width: 600px;
+        margin: auto;
+        padding: 20px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Card shadow */
+        border-radius: 10px;
+        background-color: #f9f9f9; /* Card background */
+    }
+
+    .delete-account {
+        margin-top: 30px;
+    }
+</style>
+{% endblock %}
+
+{% block index %}
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="profile-header">
+        <h2 style="color: #f0f0f0;">PROFILE</h2>
+    </div>
+
+    <div class="profile-card mt-4">
+        <div class="profile-container">
+            <div class="profile-picture">
+                {% if user.profile.profile_picture %}
+                    <img src="{{ user.profile.profile_picture.url }}" alt="Profile Picture">
+                {% else %}
+                    <span>NO IMAGE</span>
+                {% endif %}
+            </div>
+
+            <div class="profile-form">
+                <h1>Edit Profile</h1>
+
+                <form method="post" action="{% url 'edit_profile' %}" enctype="multipart/form-data">
+                    {% csrf_token %}
+
+                    <div class="form-group">
+                        <label for="id_username">Username:</label>
+                        <input type="text" name="username" value="{{ user.username }}" class="form-control">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="id_first_name">First Name:</label>
+                        <input type="text" name="first_name" value="{{ user.first_name }}" class="form-control">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="id_last_name">Last Name:</label>
+                        <input type="text" name="last_name" value="{{ user.last_name }}" class="form-control">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="id_email">Email:</label>
+                        <input type="email" name="email" value="{{ user.email }}" class="form-control">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="id_profile_picture">Change Profile Picture:</label>
+                        <input type="file" name="profile_picture" class="form-control-file">
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                    <a href="{% url 'profile' %}" class="btn btn-secondary">Cancel</a>
+                </form>
+            </div>
+        </div>
+
+        <p style="text-align: center; margin-top: 30px;">
+            You can change your password <a href="{% url 'password_change' %}" class="text-primary" style="font-weight: bold;">here</a>.
+        </p>
+
+        <hr>
+
+        <div class="container mt-3 delete-account">
+            <h2>Delete Account</h2>
+
+            <p>Are you sure you want to delete your account? This action cannot be undone.</p>
+
+            <form method="post" action="{% url 'delete_account' %}">
+                {% csrf_token %}
+
+                <button type="submit" class="btn btn-danger">Delete</button>
+                <a href="{% url 'profile' %}" class="btn btn-secondary">Cancel</a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

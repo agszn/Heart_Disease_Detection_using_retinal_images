@@ -1,0 +1,176 @@
+{% extends "base.html" %}
+{% block title %}Login{% endblock %}
+{% block style %}
+<style>
+    /* Form control styles */
+    input[type=text],
+    input[type=email],
+    input[type=password],
+    textarea,
+    select {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #ced4da; /* Lighter border color */
+        border-radius: 4px;
+        box-sizing: border-box;
+        margin-top: 6px;
+        margin-bottom: 16px;
+        color: #000000; /* Text color */
+        background-color: #f0f3f5; /* Light blue-gray background color */
+        font-weight: bolder;
+    }
+
+    /* Larger input styles for form-control-lg */
+    input[type=text].form-control-lg,
+    input[type=email].form-control-lg,
+    input[type=password].form-control-lg,
+    textarea.form-control-lg,
+    select.form-control-lg {
+        padding: 16px;
+        
+    }
+
+    /* Eye icon for password visibility toggle */
+    .eye-icon {
+        cursor: pointer;
+        position: absolute;
+        right: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #6c757d; /* Eye icon color */
+        display: none; /* Initially hidden */
+    }
+
+    /* Show eye icon when password field is focused or has input */
+    .form-group.password-focused .eye-icon {
+        display: block;
+    }
+
+    /* Login card styling */
+    .login-card {
+        border-radius: 1rem;
+        background-color: #cacff1; /* Light blue-gray background color */
+        box-shadow: 0 4px 8px rgba(248, 248, 248, 0.1); /* Box shadow for 3D effect */
+    }
+
+    .login-card .card-body {
+        padding: 5rem; /* Padding for card body */
+    }
+
+    .login-card h2 {
+        font-weight: bold;
+        text-transform: uppercase;
+        color: #000000; /* Title color */
+    }
+
+    .login-card .text-muted {
+        color: #000000; /* Text color */
+    }
+
+    .login-card .btn-outline-primary {
+        color: #000000; /* Button text color */
+        border-color: #007bff; /* Button border color */
+    }
+
+    .login-card .btn-outline-primary:hover {
+        background-color: #007bff; /* Button hover background color */
+        color: #ffffff; /* Button hover text color */
+    }
+
+    .login-card .alert-danger {
+        background-color: #f8d7da; /* Danger alert background color */
+        border-color: #f5c6cb; /* Danger alert border color */
+    }
+
+    .login-card .alert-danger p {
+        color: #721c24; /* Danger alert text color */
+    }
+</style>
+{% endblock %}
+{% block index %}
+{% endblock %}
+{% block content %}
+<section class="vh-100 gradient-custom">
+    <div class="container py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-12 col-md-6">
+                <div class="card login-card">
+                    <div class="card-body p-5 text-center">
+                        <div class="mb-md-5 mt-md-4 pb-5">
+                            <h2 class="fw-bold mb-4">Login</h2>
+                            {% if form.errors %}
+                                <div class="alert alert-danger" role="alert">
+                                    <p class="mb-0">Please check your username and password.</p>
+                                </div>
+                            {% else %}
+                                <p class="text-muted mb-5">Please use the following form to login.</p>
+                            {% endif %}
+                            <form action="{% url 'login' %}" method="post">
+                                {% csrf_token %}
+                                <div class="form-group mb-4">
+                                    {{ form.username.label_tag }}
+                                    {{ form.username }}
+                                </div>
+                                <div class="form-group mb-4 position-relative password-focused">
+                                    {{ form.password.label_tag }}
+                                    {{ form.password }}
+                                    <i class="eye-icon fa fa-eye" onclick="togglePasswordVisibility('id_password')"></i>
+                                </div>
+                                <!-- Forgot password link (optional) -->
+                                <!-- <p class="small mb-4 pb-lg-2"><a class="text-muted" href="{% url 'password_reset' %}">Forgot password?</a></p> -->
+                                <button class="btn btn-outline-primary btn-lg px-5">Login</button>
+                            </form>
+                        </div>
+                        <div>
+                            <p class="mb-0 text-muted">Don't have an account? <a href="{% url 'register' %}" class="fw-bold">Sign Up</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+{% block script %}
+<script>
+    // Function to toggle password visibility
+    function togglePasswordVisibility(inputId) {
+        var passwordInput = document.getElementById(inputId);
+        var eyeIcon = document.querySelector(`[onclick="togglePasswordVisibility('${inputId}')"]`);
+
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            eyeIcon.classList.remove('fa-eye');
+            eyeIcon.classList.add('fa-eye-slash');
+        } else {
+            passwordInput.type = 'password';
+            eyeIcon.classList.remove('fa-eye-slash');
+            eyeIcon.classList.add('fa-eye');
+        }
+    }
+
+    // Add focus and input event listeners to toggle eye icon visibility
+    document.addEventListener('DOMContentLoaded', function() {
+        var passwordField = document.getElementById('id_password');
+        var eyeIcon = document.querySelector('.eye-icon');
+
+        passwordField.addEventListener('focus', function() {
+            eyeIcon.style.display = 'block';
+        });
+
+        passwordField.addEventListener('blur', function() {
+            if (passwordField.type === 'password') {
+                eyeIcon.style.display = 'none';
+            }
+        });
+
+        passwordField.addEventListener('input', function() {
+            if (passwordField.value.trim() !== '') {
+                eyeIcon.style.display = 'block';
+            } else {
+                eyeIcon.style.display = 'none';
+            }
+        });
+    });
+</script>
+{% endblock %}

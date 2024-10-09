@@ -1,0 +1,77 @@
+{% load static %}
+<header>
+	<div class="header-top-bar">
+		<div class="container">
+			<div class="row align-items-center">
+				<div class="col-lg-6">
+					<ul class="top-bar-info list-inline-item pl-0 mb-0">
+						<li class="list-inline-item"><a href="mailto:support@gmail.com"><i class="icofont-support-faq mr-2"></i>support@heart.com</a></li>
+						<li class="list-inline-item"><i class="icofont-location-pin mr-2"></i>Address 411, Belgaum, Karnataka </li>
+					</ul>
+				</div>
+				<div class="col-lg-6">
+					<div class="text-lg-right top-right-bar mt-2 mt-lg-0">
+						<a href="tel:+23-345-67890" >
+							<span>Call Now : </span>
+							<span class="h4">0831-2587445</span>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<nav class="navbar navbar-expand-lg navigation" id="navbar">
+		<div class="container">
+			<!-- <a class="navbar-brand" href="/">
+				<img src="{% static 'images/favicon.png' %}" alt="">
+			</a> -->
+
+        <a class="navbar-brand" href="/"><h1><span class="text-dark">Cardiac</span> Disease <span class="text-dark"> Detection</span></h1></a>
+
+		  	<button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarmain" aria-controls="navbarmain" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="icofont-navigation-menu"></span>
+		  </button>
+	  
+		  <div class="collapse navbar-collapse" id="navbarmain">
+			<ul class="navbar-nav ml-auto">
+        {% if request.user.is_authenticated %}
+			  <li class="nav-item">
+				<a class="nav-link" href="/">Home</a>
+			  </li>
+			   <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">About</a></li>
+			   <li class="nav-item"><a class="nav-link" href="{% url 'predict' %}">Prediction</a></li>
+			   <li class="nav-item"><a class="nav-link" href="{% url 'dataset' %}">Dataset</a></li>
+			   <li class="nav-item"><a class="nav-link" href="{% url 'prediction_history' %}">History</a></li>
+			   <li class="nav-item"><a class="nav-link" href="{% url 'detect_heart_disease' %}">Detect Heart Disease</a></li>
+			   
+			   
+<!-- 
+			    <li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" href="/" id="dropdown02" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Model <i class="icofont-thin-down"></i></a>
+					<ul class="dropdown-menu" aria-labelledby="dropdown02">
+						<li><a class="dropdown-item" href="{% url 'about' %}">Dataset</a></li>
+						<li><a class="dropdown-item" href="{% url 'about' %}">Trained Model</a></li>
+					</ul>
+			  	</li> -->
+
+			   
+			   <!-- <li class="nav-item"><a class="nav-link" href="{% url 'contact' %}">Contact</a></li> -->
+         <form method="post" action="{% url 'logout' %}" class="form-inline my-2 my-lg-0 ">
+          {% csrf_token %}
+          <button type="submit" class="btn  my-2 my-sm-0 text-dark" style="background-color: rgb(238, 181, 181);">Logout</button>
+        </form>
+      {% else %}
+      <li class="nav-item">
+        <a class="btn btn-primary ml-lg-3" href="{% url 'login' %}">Login</a>
+      </li>
+      <li class="nav-item">
+        <a class="btn btn-primary ml-lg-3" href="{% url 'register' %}">Register</a>
+      </li>
+      {% endif %}
+        </ul>
+		  </div>
+		</div>
+	</nav>
+</header>
+	
+
