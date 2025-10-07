@@ -2,6 +2,7 @@
 Heart Disease Detection System using Retinal Images involves using Convolutional Neural Networks (CNNs) for image analysis and Django as the web framework for managing the web application.
 
 # Dataset
+https://www.kaggle.com/datasets/grantmcnatt/mri-and-pet-dice-similarity-dataset
 https://www.kaggle.com/datasets/andrewmvd/drive-digital-retinal-images-for-vessel-extraction
 
 ### Screenshots
@@ -15,3 +16,4 @@ https://www.kaggle.com/datasets/andrewmvd/drive-digital-retinal-images-for-vesse
 1. Input: Retinal images from the camera.
 2. Backend: Image processing and model prediction.
 3. Output: Display of heart disease risk via web interface.
+
